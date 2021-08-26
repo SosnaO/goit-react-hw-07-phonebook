@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import styles from './ContactForm.module.css';
 import { useSelector, useDispatch } from "react-redux";
-import contactsAction from '../redux/counter/counter-action';
-import { getContacts } from '../redux/counter/counter_selectors';
 
-export default function ContactForm({onSubmit}) {
+ import { contactsSelectors, contactsOperations } from '../redux/contacts';
 
-    const contacts = useSelector(getContacts);
+ import LoaderComponent from '../../components/Loader/loader.js';
+
+ function ContactForm({onSubmit}) {
+    
+    const contacts = useSelector(contactsSelectors.getContacts);
     const dispatch = useDispatch()
+     const isLoading = useSelector(contactsSelectors.getLoading);
 
     const [name, setName]= useState('');
     const [number, setNumber]= useState('');
@@ -26,27 +29,30 @@ export default function ContactForm({onSubmit}) {
              return;
         }
     }
-      
-    const findByName = contactName => {
-     return contacts.some(({ name }) => name === contactName);
-    };
-    const reset = () => {
+   
+    const findByName = name => {
+        return contacts.find(
+          contact => contact.name.toLowerCase() === name.toLowerCase(),
+        );
+      };
+             
+      const handleSubmit = e => {
+        e.preventDefault();
+        if (findByName(name)) {
+          alert(` ${name} is already in the phonebook.`);
+          reset();
+          return;
+        } 
+          dispatch(contactsOperations.addContact(name, number));
+           reset();
+      };
+      const reset = () => {
         setName("");
         setNumber("");
        };
 
-    const handleSubmit=event=>{
-      event.preventDefault();
-        if (findByName(name)) {
-            alert(`${name} is already in contacts!`);
-            reset();
-            return;
-        }
-        dispatch(contactsAction.addContact({name, number}))
-        reset();
-    };
-
-    return(
+    return (
+        <>
         <form  className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.formLabel}>Name
         <input className={styles.formInput}
@@ -71,7 +77,13 @@ export default function ContactForm({onSubmit}) {
         onChange={handleChange}
         />
         </label>
+        {!isLoading && (
         <button className={styles.buttonSubmit} type="submit">Add contact</button>
+        )}
+        {isLoading && <LoaderComponent />}
         </form>
+        </>
         );
 };
+
+export default ContactForm;

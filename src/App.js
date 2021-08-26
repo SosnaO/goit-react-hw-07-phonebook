@@ -1,10 +1,10 @@
-import './App.css';
 import ContactList from './components/ContactList/ContactList'
 import ContactForm from './components/ContactForm/ContactForm'
 import Filter from './components/Filter/Filter'
 import styles from './components/ContactForm/ContactForm.module.css'
-  
-function App(){
+
+
+     function App(){
    return (
     <div className={styles.phonebook}>
     <h1>Phonebook</h1>
@@ -14,5 +14,5 @@ function App(){
     <ContactList /> 
     </div>
   );
-  }
+}
   export default App;
