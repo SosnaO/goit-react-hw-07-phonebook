@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import styles from './ContactForm.module.css';
 import { useSelector, useDispatch } from "react-redux";
-
- import { contactsSelectors, contactsOperations } from '../redux/contacts';
-
- import LoaderComponent from '../../components/Loader/loader.js';
-
+import { contactsSelectors, contactsOperations } from '../redux/contacts';
+import LoaderComponent from '../../components/Loader/loader.js';
  function ContactForm({onSubmit}) {
-    
     const contacts = useSelector(contactsSelectors.getContacts);
     const dispatch = useDispatch()
-     const isLoading = useSelector(contactsSelectors.getLoading);
+    const isLoading = useSelector(contactsSelectors.getLoading);
 
     const [name, setName]= useState('');
     const [number, setNumber]= useState('');
@@ -34,9 +30,9 @@ import { useSelector, useDispatch } from "react-redux";
         return contacts.find(
           contact => contact.name.toLowerCase() === name.toLowerCase(),
         );
-      };
+    };
              
-      const handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
         if (findByName(name)) {
           alert(` ${name} is already in the phonebook.`);
@@ -45,11 +41,12 @@ import { useSelector, useDispatch } from "react-redux";
         } 
           dispatch(contactsOperations.addContact(name, number));
            reset();
-      };
-      const reset = () => {
+    };
+
+    const reset = () => {
         setName("");
         setNumber("");
-       };
+    };
 
     return (
         <>

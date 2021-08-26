@@ -11,10 +11,8 @@ import {
   fetchContactsError,
   changeFilter,
 }  from './contacts-actions.js'
-// import { createReducer } from "@reduxjs/toolkit";
 
 const items = createReducer([], {
-
   [fetchContactsSuccess]:(_, { payload }) => payload,
   [addContactSuccess]: (state, { payload }) => [...state, payload],
   [deleteContactSuccess]: (state, { payload }) => state.filter(({ id }) => id !== payload),

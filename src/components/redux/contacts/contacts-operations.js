@@ -1,7 +1,3 @@
-// Модули
-// import axios from 'axios';
-
-// Компоненты
 import {
     addContactRequest,
     addContactSuccess,
@@ -12,15 +8,11 @@ import {
     fetchContactsRequest,
     fetchContactsSuccess,
     fetchContactsError,
-
-
 } from './contacts-actions';
 import * as contactsAPI from '../../api';
 
-
 export const fetchContacts = () => dispatch => {
   dispatch(fetchContactsRequest());
-
   contactsAPI
     .fetchContacts()
     .then(({ data }) => dispatch(fetchContactsSuccess(data)))
@@ -32,9 +24,7 @@ export const addContact = (name, number) => dispatch => {
     name,
     number,
   };
-
   dispatch(addContactRequest());
-
   contactsAPI
     .addContact(contact)
     .then(({ data }) => dispatch(addContactSuccess(data)))
@@ -43,12 +33,8 @@ export const addContact = (name, number) => dispatch => {
 
 export const deleteContact = id => dispatch => {
   dispatch(deleteContactRequest());
-
   contactsAPI
     .deleteContact(id)
     .then(() => dispatch(deleteContactSuccess(id)))
     .catch(error => dispatch(deleteContactError(error)));
 };
-
-
-
